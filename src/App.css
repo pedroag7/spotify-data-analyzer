@@ -18,11 +18,12 @@
 
 .hero h1 {
   margin: 0;
-  max-width: 14ch;
+  max-width: 20ch;
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: clamp(3rem, 12vw, 6rem);
-  line-height: 0.92;
+  font-size: clamp(2.25rem, 6.5vw, 4.5rem);
+  line-height: 1.05;
+  word-break: normal;
   letter-spacing: -0.02em;
   text-transform: uppercase;
   color: var(--text);
@@ -175,7 +176,7 @@
   font-size: 0.9375rem;
   line-height: 1.55;
   color: var(--text);
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 
 .how-to li::before {
@@ -245,7 +246,7 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 
 @media (min-width: 900px) {
@@ -345,14 +346,14 @@
   gap: 0 16px;
   margin: 0;
   font-family: var(--font-display);
-  line-height: 0.9;
+  line-height: 1;
 }
 
 .cover-value {
-  font-size: clamp(4rem, 22vw, 6rem);
+  font-size: clamp(3rem, 14vw, 5.25rem);
   font-weight: 800;
   letter-spacing: -0.01em;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 
 .cover-unit {
