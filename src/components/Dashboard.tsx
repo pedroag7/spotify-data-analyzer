@@ -13,7 +13,7 @@ import type { Analysis, ParseError } from '../lib/streaming'
 import {
   WEEKDAY_LABELS,
   formatDate,
-  formatDuration,
+  heroHeadline,
   formatHour,
   formatMonthLabel,
   formatNumber,
@@ -70,6 +70,8 @@ export function Dashboard({
     plays: platform.plays,
   }))
 
+  const hero = heroHeadline(analysis.totalMs, analysis.totalPlays)
+
   const skipRate =
     analysis.totalPlays > 0
       ? Math.round((analysis.skippedPlays / analysis.totalPlays) * 100)
@@ -83,21 +85,25 @@ export function Dashboard({
 
   return (
     <div className="dashboard">
-      <div className="dashboard-glow" aria-hidden="true" />
-
-      <header className="topbar">
-        <div className="brand">
-          <span className="brand-dot" aria-hidden="true" />
-          <div>
-            <strong>Spotify Data Analyzer</strong>
-            <span>
-              {fileCount} arquivo{fileCount === 1 ? '' : 's'} importado
-              {fileCount === 1 ? '' : 's'}
-            </span>
-          </div>
+      <header className="cover">
+        <div className="cover-hero">
+          {analysis.totalPlays === 0 ? (
+            <p className="cover-empty" role="status">
+              Nenhuma reprodução em {year ?? 'este período'}.
+              <span>Escolha outro período para ver seus números.</span>
+            </p>
+          ) : (
+            <>
+              <p className="cover-number">
+                <span className="cover-value">{hero.value}</span>
+                <span className="cover-unit">{hero.unit}</span>
+              </p>
+              <p className="cover-caption">{hero.caption}</p>
+            </>
+          )}
         </div>
 
-        <div className="topbar-actions">
+        <div className="cover-side">
           <label className="year-select">
             <span>Período</span>
             <select
@@ -116,10 +122,23 @@ export function Dashboard({
               ))}
             </select>
           </label>
+          <dl className="cover-period">
+            <dt>Período</dt>
+            <dd>{period}</dd>
+            <dd className="cover-period-hint">primeira e última reprodução</dd>
+          </dl>
           <button type="button" className="ghost-button" onClick={onReset}>
             Trocar arquivos
           </button>
         </div>
+
+        <p className="cover-credits">
+          <strong>Spotify Data Analyzer</strong>
+          <span>
+            {fileCount} arquivo{fileCount === 1 ? '' : 's'} importado
+            {fileCount === 1 ? '' : 's'}
+          </span>
+        </p>
       </header>
 
       {errors.length > 0 ? (
@@ -128,13 +147,7 @@ export function Dashboard({
         </div>
       ) : null}
 
-      <section className="kpi-grid">
-        <StatCard
-          label="Tempo ouvido"
-          value={formatDuration(analysis.totalMs)}
-          hint={`${formatNumber(analysis.totalPlays)} reproduções`}
-          accent
-        />
+      <dl className="kpi-grid">
         <StatCard
           label="Artistas únicos"
           value={formatNumber(analysis.uniqueArtists)}
@@ -150,8 +163,7 @@ export function Dashboard({
           value={`${skipRate}%`}
           hint={`${formatNumber(analysis.skippedPlays)} faixas puladas`}
         />
-        <StatCard label="Período" value={period} hint="primeira e última reprodução" wide />
-      </section>
+      </dl>
 
       <section className="chart-grid">
         <article className="card card--wide">

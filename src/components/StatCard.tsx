@@ -2,16 +2,14 @@ interface StatCardProps {
   label: string
   value: string
   hint?: string
-  wide?: boolean
-  accent?: boolean
 }
 
-export function StatCard({ label, value, hint, wide, accent }: StatCardProps) {
+export function StatCard({ label, value, hint }: StatCardProps) {
   return (
-    <article className={`stat-card${wide ? ' stat-card--wide' : ''}${accent ? ' stat-card--accent' : ''}`}>
-      <span className="stat-label">{label}</span>
-      <strong className="stat-value">{value}</strong>
-      {hint ? <span className="stat-hint">{hint}</span> : null}
-    </article>
+    <div className="stat-card">
+      <dt className="stat-label">{label}</dt>
+      <dd className="stat-value">{value}</dd>
+      {hint ? <dd className="stat-hint">{hint}</dd> : null}
+    </div>
   )
 }
