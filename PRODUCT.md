@@ -46,3 +46,4 @@ Nenhum dado real de usuário, depoimento ou métrica de uso. Nada disso deve ser
 - Privacidade é parte da proposta e precisa ficar visível.
 - Explorar é fácil: filtrar por ano e escanear listas e gráficos sem esforço.
 - Expressivo na abertura, preciso nos dados.
+

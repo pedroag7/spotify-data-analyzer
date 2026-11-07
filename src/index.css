@@ -1,20 +1,19 @@
 :root {
-  --bg: #070a08;
-  --bg-soft: #0b100d;
-  --card: #111713;
-  --border: rgba(255, 255, 255, 0.08);
-  --text: #e9f2ec;
-  --muted: #8fa096;
-  --accent: #1ed760;
-  --accent-soft: rgba(30, 215, 96, 0.12);
-  --danger: #ff7b7b;
-  --warning: #ffc857;
-  --radius: 18px;
-  --font:
-    'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue',
-    sans-serif;
+  --bg: #ece4d3;
+  --bg-soft: #e2d8c2;
+  --card: #f4eee0;
+  --border: rgba(23, 19, 15, 0.22);
+  --text: #17130f;
+  --muted: #5c5246;
+  --accent: #c2391f;
+  --accent-soft: rgba(194, 57, 31, 0.12);
+  --danger: #9b1c1c;
+  --warning: #8a5a00;
+  --radius: 2px;
+  --font: 'Hanken Grotesk Variable', system-ui, sans-serif;
+  --font-display: 'Big Shoulders Variable', 'Big Shoulders Display Variable', Impact, sans-serif;
 
-  color-scheme: dark;
+  color-scheme: light;
   font-family: var(--font);
   font-size: 16px;
   line-height: 1.5;
@@ -33,10 +32,8 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background:
-    radial-gradient(circle at 15% -10%, rgba(30, 215, 96, 0.12), transparent 45%),
-    radial-gradient(circle at 90% 0%, rgba(30, 215, 96, 0.06), transparent 35%),
-    var(--bg);
+  background: var(--bg);
+  font-variant-numeric: tabular-nums;
 }
 
 #root {
@@ -58,6 +55,11 @@ input {
 
 a {
   color: var(--accent);
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg);
 }
 
 :focus-visible {
