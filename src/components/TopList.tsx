@@ -1,4 +1,4 @@
-import type { RankedItem } from '../lib/streaming'
+﻿import type { RankedItem } from '../lib/streaming'
 import { formatDuration, formatNumber } from '../lib/format'
 
 interface TopListProps {
@@ -10,19 +10,19 @@ interface TopListProps {
 
 export function TopList({ title, items, limit = 10, showDetail = true }: TopListProps) {
   const visible = items.slice(0, limit)
-  const max = visible[0]?.msPlayed ?? 1
+  const max = visible[0]?.msPlayed || 1
 
   return (
-    <section className="card">
-      <header className="card-head">
-        <h2>{title}</h2>
-        <span className="card-tag">top {visible.length}</span>
+    <section className="ranking">
+      <header className="ranking-head">
+        <h3>{title}</h3>
+        <span className="chart-note">top {visible.length}</span>
       </header>
 
       {visible.length === 0 ? (
         <p className="empty">Sem dados suficientes.</p>
       ) : (
-        <ol className="rank-list">
+        <ol className="ranking-list">
           {visible.map((item, index) => (
             <li key={`${item.name}-${item.detail}-${index}`}>
               <span className="rank">{index + 1}</span>

@@ -1,4 +1,4 @@
-import {
+﻿import {
   Area,
   AreaChart,
   Bar,
@@ -30,14 +30,31 @@ interface DashboardProps {
   errors: ParseError[]
 }
 
-const tooltipStyle = {
-  background: '#141a16',
-  border: '1px solid rgba(255, 255, 255, 0.12)',
-  borderRadius: 12,
-  color: '#eef5f0',
+function cssToken(name: string): string {
+  if (typeof document === 'undefined') return `var(${name})`
+  const value = getComputedStyle(document.documentElement).getPropertyValue(name).trim()
+  return value || `var(${name})`
 }
 
-const axisTick = { fill: '#8fa096', fontSize: 12 }
+function chartTheme() {
+  const text = cssToken('--text')
+  const card = cssToken('--card')
+  const border = cssToken('--border')
+  return {
+    text,
+    accent: cssToken('--accent'),
+    grid: border,
+    cursor: cssToken('--accent-soft'),
+    tick: { fill: cssToken('--muted'), fontSize: 12 },
+    tooltip: {
+      background: card,
+      border: `1px solid ${border}`,
+      borderRadius: 2,
+      color: text,
+    },
+    label: { color: text },
+  }
+}
 
 export function Dashboard({
   analysis,
@@ -47,6 +64,7 @@ export function Dashboard({
   fileCount,
   errors,
 }: DashboardProps) {
+  const theme = chartTheme()
   const monthlyData = analysis.monthly.map((point) => ({
     label: formatMonthLabel(point.month),
     horas: Number((point.msPlayed / 3_600_000).toFixed(1)),
@@ -80,8 +98,8 @@ export function Dashboard({
   const monthTickInterval = Math.max(0, Math.ceil(monthlyData.length / 12) - 1)
   const period =
     analysis.firstPlay && analysis.lastPlay
-      ? `${formatDate(analysis.firstPlay)} — ${formatDate(analysis.lastPlay)}`
-      : '—'
+      ? `${formatDate(analysis.firstPlay)} â€” ${formatDate(analysis.lastPlay)}`
+      : 'â€”'
 
   return (
     <div className="dashboard">
@@ -89,8 +107,8 @@ export function Dashboard({
         <div className="cover-hero">
           {analysis.totalPlays === 0 ? (
             <p className="cover-empty" role="status">
-              Nenhuma reprodução em {year ?? 'este período'}.
-              <span>Escolha outro período para ver seus números.</span>
+              Nenhuma reproduÃ§Ã£o em {year ?? 'este perÃ­odo'}.
+              <span>Escolha outro perÃ­odo para ver seus nÃºmeros.</span>
             </p>
           ) : (
             <>
@@ -105,7 +123,7 @@ export function Dashboard({
 
         <div className="cover-side">
           <label className="year-select">
-            <span>Período</span>
+            <span>PerÃ­odo</span>
             <select
               value={year === undefined ? 'all' : String(year)}
               onChange={(event) =>
@@ -123,9 +141,9 @@ export function Dashboard({
             </select>
           </label>
           <dl className="cover-period">
-            <dt>Período</dt>
+            <dt>PerÃ­odo</dt>
             <dd>{period}</dd>
-            <dd className="cover-period-hint">primeira e última reprodução</dd>
+            <dd className="cover-period-hint">primeira e Ãºltima reproduÃ§Ã£o</dd>
           </dl>
           <button type="button" className="ghost-button" onClick={onReset}>
             Trocar arquivos
@@ -143,20 +161,20 @@ export function Dashboard({
 
       {errors.length > 0 ? (
         <div className="warning-box" role="status">
-          {errors.length} arquivo(s) foram ignorados por não serem JSONs válidos.
+          {errors.length} arquivo(s) foram ignorados por nÃ£o serem JSONs vÃ¡lidos.
         </div>
       ) : null}
 
       <dl className="kpi-grid">
         <StatCard
-          label="Artistas únicos"
+          label="Artistas Ãºnicos"
           value={formatNumber(analysis.uniqueArtists)}
-          hint="no período selecionado"
+          hint="no perÃ­odo selecionado"
         />
         <StatCard
-          label="Músicas únicas"
+          label="MÃºsicas Ãºnicas"
           value={formatNumber(analysis.uniqueTracks)}
-          hint="no período selecionado"
+          hint="no perÃ­odo selecionado"
         />
         <StatCard
           label="Taxa de skip"
@@ -165,103 +183,122 @@ export function Dashboard({
         />
       </dl>
 
-      <section className="chart-grid">
-        <article className="card card--wide">
-          <header className="card-head">
-            <h2>Evolução mensal</h2>
-            <span className="card-tag">horas ouvidas</span>
-          </header>
-          {monthlyData.length === 0 ? (
-            <p className="empty">Sem dados no período selecionado.</p>
-          ) : (
-            <ResponsiveContainer width="100%" height={280}>
-              <AreaChart data={monthlyData} margin={{ top: 12, right: 8, left: -12, bottom: 0 }}>
-                <defs>
-                  <linearGradient id="monthlyFill" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#1ed760" stopOpacity={0.45} />
-                    <stop offset="100%" stopColor="#1ed760" stopOpacity={0} />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.07)" vertical={false} />
-                <XAxis
-                  dataKey="label"
-                  tick={axisTick}
-                  axisLine={false}
-                  tickLine={false}
-                  interval={monthTickInterval}
-                />
-                <YAxis tick={axisTick} axisLine={false} tickLine={false} width={44} />
-                <Tooltip
-                  contentStyle={tooltipStyle}
-                  labelStyle={{ color: '#eef5f0' }}
-                  formatter={(value, name) =>
-                    name === 'horas'
-                      ? [`${value} h`, 'Tempo']
-                      : [formatNumber(Number(value)), 'Reproduções']
-                  }
-                />
-                <Area
-                  type="monotone"
-                  dataKey="horas"
-                  stroke="#1ed760"
-                  strokeWidth={2}
-                  fill="url(#monthlyFill)"
-                />
-              </AreaChart>
-            </ResponsiveContainer>
-          )}
-        </article>
 
-        <article className="card">
-          <header className="card-head">
-            <h2>Horário do dia</h2>
-            <span className="card-tag">reproduções</span>
-          </header>
-          <ResponsiveContainer width="100%" height={220}>
-            <BarChart data={hourlyData} margin={{ top: 12, right: 8, left: -20, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.07)" vertical={false} />
-              <XAxis dataKey="label" tick={axisTick} axisLine={false} tickLine={false} interval={3} />
-              <YAxis tick={axisTick} axisLine={false} tickLine={false} allowDecimals={false} />
-              <Tooltip
-                cursor={{ fill: 'rgba(30, 215, 96, 0.08)' }}
-                contentStyle={tooltipStyle}
-                labelStyle={{ color: '#eef5f0' }}
-                formatter={(value) => [formatNumber(Number(value)), 'Reproduções']}
-              />
-              <Bar dataKey="reproducoes" fill="#1ed760" radius={[4, 4, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
-        </article>
+      {analysis.totalPlays === 0 ? (
+        <p className="liner-empty" role="status">
+          Sem dados para exibir neste período.
+        </p>
+      ) : (
+        <>
+          <section className="liner" aria-labelledby="sec-faixas">
+            <h2 className="liner-title" id="sec-faixas">Faixas</h2>
+            <div className="tracks">
+              <TopList title="Artistas mais ouvidos" items={analysis.topArtists} />
+              <TopList title="Músicas mais ouvidas" items={analysis.topTracks} />
+              <TopList title="Álbuns mais ouvidos" items={analysis.topAlbums} />
+            </div>
+          </section>
 
-        <article className="card">
-          <header className="card-head">
-            <h2>Dias da semana</h2>
-            <span className="card-tag">reproduções</span>
-          </header>
-          <ResponsiveContainer width="100%" height={220}>
-            <BarChart data={weekdayData} margin={{ top: 12, right: 8, left: -20, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.07)" vertical={false} />
-              <XAxis dataKey="label" tick={axisTick} axisLine={false} tickLine={false} />
-              <YAxis tick={axisTick} axisLine={false} tickLine={false} allowDecimals={false} />
-              <Tooltip
-                cursor={{ fill: 'rgba(30, 215, 96, 0.08)' }}
-                contentStyle={tooltipStyle}
-                labelStyle={{ color: '#eef5f0' }}
-                formatter={(value) => [formatNumber(Number(value)), 'Reproduções']}
-              />
-              <Bar dataKey="reproducoes" fill="#1ed760" radius={[4, 4, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
-        </article>
+          <section className="liner" aria-labelledby="sec-evolucao">
+            <h2 className="liner-title" id="sec-evolucao">Evolução mensal</h2>
+            <div className="chart-block">
+              <div className="chart-block-head">
+                <h3>Horas ouvidas</h3>
+                <span className="chart-note">horas ouvidas</span>
+              </div>
+              {monthlyData.length === 0 ? (
+                <p className="empty">Sem dados no período selecionado.</p>
+              ) : (
+                <ResponsiveContainer width="100%" height={280} minHeight={200}>
+                  <AreaChart data={monthlyData} margin={{ top: 12, right: 8, left: -12, bottom: 0 }}>
+                    <CartesianGrid stroke={theme.grid} vertical={false} />
+                    <XAxis
+                      dataKey="label"
+                      tick={theme.tick}
+                      axisLine={false}
+                      tickLine={false}
+                      interval={monthTickInterval}
+                    />
+                    <YAxis tick={theme.tick} axisLine={false} tickLine={false} width={44} />
+                    <Tooltip
+                      contentStyle={theme.tooltip}
+                      labelStyle={theme.label}
+                      formatter={(value, name) =>
+                        name === 'horas'
+                          ? [`${value} h`, 'Tempo']
+                          : [formatNumber(Number(value)), 'Reproduções']
+                      }
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="horas"
+                      stroke={theme.text}
+                      strokeWidth={2}
+                      fill={theme.accent}
+                      fillOpacity={0.14}
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
+              )}
+            </div>
+          </section>
 
-        <TopList title="Artistas mais ouvidos" items={analysis.topArtists} />
-        <TopList title="Músicas mais ouvidas" items={analysis.topTracks} />
-        <TopList title="Álbuns mais ouvidos" items={analysis.topAlbums} />
-        <TopList title="Plataformas" items={platformItems} showDetail={false} />
-      </section>
+          <section className="liner liner--tight" aria-labelledby="sec-habitos">
+            <h2 className="liner-title" id="sec-habitos">Hábitos</h2>
+            <div className="habits">
+              <div className="chart-block">
+                <div className="chart-block-head">
+                  <h3>Horário do dia</h3>
+                  <span className="chart-note">reproduções</span>
+                </div>
+                <ResponsiveContainer width="100%" height={220} minHeight={180}>
+                  <BarChart data={hourlyData} margin={{ top: 12, right: 8, left: -20, bottom: 0 }}>
+                    <CartesianGrid stroke={theme.grid} vertical={false} />
+                    <XAxis dataKey="label" tick={theme.tick} axisLine={false} tickLine={false} interval={3} />
+                    <YAxis tick={theme.tick} axisLine={false} tickLine={false} allowDecimals={false} />
+                    <Tooltip
+                      cursor={{ fill: theme.cursor }}
+                      contentStyle={theme.tooltip}
+                      labelStyle={theme.label}
+                      formatter={(value) => [formatNumber(Number(value)), 'Reproduções']}
+                    />
+                    <Bar dataKey="reproducoes" fill={theme.text} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+
+              <div className="chart-block">
+                <div className="chart-block-head">
+                  <h3>Dias da semana</h3>
+                  <span className="chart-note">reproduções</span>
+                </div>
+                <ResponsiveContainer width="100%" height={220} minHeight={180}>
+                  <BarChart data={weekdayData} margin={{ top: 12, right: 8, left: -20, bottom: 0 }}>
+                    <CartesianGrid stroke={theme.grid} vertical={false} />
+                    <XAxis dataKey="label" tick={theme.tick} axisLine={false} tickLine={false} />
+                    <YAxis tick={theme.tick} axisLine={false} tickLine={false} allowDecimals={false} />
+                    <Tooltip
+                      cursor={{ fill: theme.cursor }}
+                      contentStyle={theme.tooltip}
+                      labelStyle={theme.label}
+                      formatter={(value) => [formatNumber(Number(value)), 'Reproduções']}
+                    />
+                    <Bar dataKey="reproducoes" fill={theme.text} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+          </section>
+
+          <section className="liner" aria-labelledby="sec-plataformas">
+            <h2 className="liner-title" id="sec-plataformas">Plataformas</h2>
+            <TopList title="Onde você ouve" items={platformItems} showDetail={false} />
+          </section>
+        </>
+      )}
 
       <footer className="footer">
-        <span>Processado localmente no seu navegador · seus dados não saem daqui</span>
+        <span>Processado localmente no seu navegador Â· seus dados nÃ£o saem daqui</span>
       </footer>
     </div>
   )
