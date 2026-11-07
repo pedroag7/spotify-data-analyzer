@@ -1,0 +1,75 @@
+:root {
+  --bg: #070a08;
+  --bg-soft: #0b100d;
+  --card: #111713;
+  --border: rgba(255, 255, 255, 0.08);
+  --text: #e9f2ec;
+  --muted: #8fa096;
+  --accent: #1ed760;
+  --accent-soft: rgba(30, 215, 96, 0.12);
+  --danger: #ff7b7b;
+  --warning: #ffc857;
+  --radius: 18px;
+  --font:
+    'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue',
+    sans-serif;
+
+  color-scheme: dark;
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 15% -10%, rgba(30, 215, 96, 0.12), transparent 45%),
+    radial-gradient(circle at 90% 0%, rgba(30, 215, 96, 0.06), transparent 35%),
+    var(--bg);
+}
+
+#root {
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+button,
+select,
+input {
+  font: inherit;
+}
+
+a {
+  color: var(--accent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
