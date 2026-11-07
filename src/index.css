@@ -1,83 +1,122 @@
-:root {
-  --bg: #ece4d3;
-  --bg-soft: #e2d8c2;
-  --card: #f4eee0;
-  --border: rgba(23, 19, 15, 0.22);
-  --text: #17130f;
-  --muted: #5c5246;
-  --accent: #c2391f;
-  --accent-soft: rgba(194, 57, 31, 0.12);
-  --danger: #9b1c1c;
-  --warning: #8a5a00;
-  --radius: 2px;
-  --font: 'Hanken Grotesk Variable', system-ui, sans-serif;
+@import "tailwindcss";
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--card);
+  --color-popover-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--muted);
+  --color-secondary-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--primary-foreground);
+  --color-destructive: var(--danger);
+  --color-destructive-foreground: var(--primary-foreground);
+  --color-border: var(--border);
+  --color-input: var(--border);
+  --color-ring: var(--primary);
+  --font-sans: 'Hanken Grotesk Variable', system-ui, sans-serif;
   --font-display: 'Big Shoulders Variable', 'Big Shoulders Display Variable', Impact, sans-serif;
-
-  /* Motion tokens */
-  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
-  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
-  --duration-press: 140ms;
-  --duration-ui: 200ms;
-
-  color-scheme: light;
-  font-family: var(--font);
-  font-size: 16px;
-  line-height: 1.5;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --radius-sm: var(--radius);
+  --radius-md: var(--radius);
+  --radius-lg: var(--radius);
 }
 
-* {
-  box-sizing: border-box;
-}
+@layer base {
+  :root {
+    --background: #ece4d3;
+    --foreground: #17130f;
+    --card: #f4eee0;
+    --card-foreground: #17130f;
+    --primary: #c2391f;
+    --primary-foreground: #f4eee0;
+    --muted: #e2d8c2;
+    --muted-foreground: #5c5246;
+    --border: rgba(23, 19, 15, 0.22);
+    --radius: 2px;
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  background: var(--bg);
-  font-variant-numeric: tabular-nums;
-}
+    /* Legacy tokens for backward compatibility with App.css */
+    --bg: #ece4d3;
+    --bg-soft: #e2d8c2;
+    --text: #17130f;
+    --accent: #c2391f;
+    --accent-soft: rgba(194, 57, 31, 0.12);
+    --danger: #9b1c1c;
+    --warning: #8a5a00;
+    --font: 'Hanken Grotesk Variable', system-ui, sans-serif;
+    --font-display: 'Big Shoulders Variable', 'Big Shoulders Display Variable', Impact, sans-serif;
 
-#root {
-  min-height: 100vh;
-}
+    /* Motion tokens */
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+    --duration-press: 140ms;
+    --duration-ui: 200ms;
 
-h1,
-h2,
-h3,
-p {
-  margin: 0;
-}
+    color-scheme: light;
+    font-family: var(--font);
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--text);
+    background: var(--bg);
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 
-button,
-select,
-input {
-  font: inherit;
-}
+  * {
+    box-sizing: border-box;
+  }
 
-a {
-  color: var(--accent);
-}
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--bg);
+    font-variant-numeric: tabular-nums;
+  }
 
-::selection {
-  background: var(--accent);
-  color: var(--bg);
-}
+  #root {
+    min-height: 100vh;
+  }
 
-:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
-}
+  h1,
+  h2,
+  h3,
+  p {
+    margin: 0;
+  }
 
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
+  button,
+  select,
+  input {
+    font: inherit;
+  }
+
+  a {
+    color: var(--accent);
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--bg);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
 }
