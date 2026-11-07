@@ -13,6 +13,12 @@
   --font: 'Hanken Grotesk Variable', system-ui, sans-serif;
   --font-display: 'Big Shoulders Variable', 'Big Shoulders Display Variable', Impact, sans-serif;
 
+  /* Motion tokens */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --duration-press: 140ms;
+  --duration-ui: 200ms;
+
   color-scheme: light;
   font-family: var(--font);
   font-size: 16px;

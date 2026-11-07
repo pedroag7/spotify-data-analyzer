@@ -34,7 +34,11 @@ export function TopList({ title, items, limit = 10, showDetail = true }: TopList
                   <span className="rank-time">{formatDuration(item.msPlayed)}</span>
                 </div>
                 <div className="rank-bar">
-                  <span style={{ width: `${Math.max(4, (item.msPlayed / max) * 100)}%` }} />
+                  <span
+                    style={{
+                      transform: `scaleX(${Math.max(0.04, item.msPlayed / max)})`,
+                    }}
+                  />
                 </div>
                 <div className="rank-meta">
                   <span title={showDetail ? item.detail : undefined}>{showDetail ? item.detail : ''}</span>
