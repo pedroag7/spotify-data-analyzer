@@ -1,4 +1,4 @@
-﻿import {
+import {
   Area,
   AreaChart,
   Bar,
@@ -98,8 +98,8 @@ export function Dashboard({
   const monthTickInterval = Math.max(0, Math.ceil(monthlyData.length / 12) - 1)
   const period =
     analysis.firstPlay && analysis.lastPlay
-      ? `${formatDate(analysis.firstPlay)} â€” ${formatDate(analysis.lastPlay)}`
-      : 'â€”'
+      ? `${formatDate(analysis.firstPlay)} — ${formatDate(analysis.lastPlay)}`
+      : '—'
 
   return (
     <div className="dashboard">
@@ -107,8 +107,8 @@ export function Dashboard({
         <div className="cover-hero">
           {analysis.totalPlays === 0 ? (
             <p className="cover-empty" role="status">
-              Nenhuma reproduÃ§Ã£o em {year ?? 'este perÃ­odo'}.
-              <span>Escolha outro perÃ­odo para ver seus nÃºmeros.</span>
+              Nenhuma reprodução em {year ?? 'este período'}.
+              <span>Escolha outro período para ver seus números.</span>
             </p>
           ) : (
             <>
@@ -123,7 +123,7 @@ export function Dashboard({
 
         <div className="cover-side">
           <label className="year-select">
-            <span>PerÃ­odo</span>
+            <span>Período</span>
             <select
               value={year === undefined ? 'all' : String(year)}
               onChange={(event) =>
@@ -141,9 +141,9 @@ export function Dashboard({
             </select>
           </label>
           <dl className="cover-period">
-            <dt>PerÃ­odo</dt>
+            <dt>Período</dt>
             <dd>{period}</dd>
-            <dd className="cover-period-hint">primeira e Ãºltima reproduÃ§Ã£o</dd>
+            <dd className="cover-period-hint">primeira e última reprodução</dd>
           </dl>
           <button type="button" className="ghost-button" onClick={onReset}>
             Trocar arquivos
@@ -161,20 +161,20 @@ export function Dashboard({
 
       {errors.length > 0 ? (
         <div className="warning-box" role="status">
-          {errors.length} arquivo(s) foram ignorados por nÃ£o serem JSONs vÃ¡lidos.
+          {errors.length} arquivo(s) foram ignorados por não serem JSONs válidos.
         </div>
       ) : null}
 
       <dl className="kpi-grid">
         <StatCard
-          label="Artistas Ãºnicos"
+          label="Artistas únicos"
           value={formatNumber(analysis.uniqueArtists)}
-          hint="no perÃ­odo selecionado"
+          hint="no período selecionado"
         />
         <StatCard
-          label="MÃºsicas Ãºnicas"
+          label="Músicas únicas"
           value={formatNumber(analysis.uniqueTracks)}
-          hint="no perÃ­odo selecionado"
+          hint="no período selecionado"
         />
         <StatCard
           label="Taxa de skip"
@@ -292,13 +292,13 @@ export function Dashboard({
 
           <section className="liner" aria-labelledby="sec-plataformas">
             <h2 className="liner-title" id="sec-plataformas">Plataformas</h2>
-            <TopList title="Onde você ouve" items={platformItems} showDetail={false} />
+            <TopList title="Plataformas" items={platformItems} showDetail={false} />
           </section>
         </>
       )}
 
       <footer className="footer">
-        <span>Processado localmente no seu navegador Â· seus dados nÃ£o saem daqui</span>
+        <span>Processado localmente no seu navegador · seus dados não saem daqui</span>
       </footer>
     </div>
   )

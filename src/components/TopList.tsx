@@ -1,4 +1,4 @@
-﻿import type { RankedItem } from '../lib/streaming'
+import type { RankedItem } from '../lib/streaming'
 import { formatDuration, formatNumber } from '../lib/format'
 
 interface TopListProps {
@@ -37,8 +37,8 @@ export function TopList({ title, items, limit = 10, showDetail = true }: TopList
                   <span style={{ width: `${Math.max(4, (item.msPlayed / max) * 100)}%` }} />
                 </div>
                 <div className="rank-meta">
-                  <span>{showDetail ? item.detail : ''}</span>
-                  <span>{formatNumber(item.plays)} reproduções</span>
+                  <span title={showDetail ? item.detail : undefined}>{showDetail ? item.detail : ''}</span>
+                  <span title={`${formatNumber(item.plays)} reproduções`}>{formatNumber(item.plays)} reproduções</span>
                 </div>
               </div>
             </li>
