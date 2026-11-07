@@ -185,7 +185,10 @@
   font-weight: 700;
   font-size: 1.5rem;
   line-height: 1;
-  color: var(--accent);
+  color: var(--text);
+  justify-self: start;
+  padding-top: 4px;
+  border-top: 3px solid var(--accent);
 }
 
 .how-to strong {
@@ -222,7 +225,6 @@
 }
 
 .error-box {
-  grid-column: 1 / -1;
   padding: 14px 16px;
   color: var(--danger);
   background: var(--card);
@@ -256,6 +258,21 @@
 
   .hero {
     grid-column: 1 / -1;
+  }
+
+  .dropzone {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .error-box {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  .how-to {
+    grid-column: 2;
+    grid-row: 2 / span 2;
   }
 }
 /* ---------- Dashboard ---------- */
