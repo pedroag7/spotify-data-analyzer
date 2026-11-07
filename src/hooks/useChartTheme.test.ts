@@ -26,7 +26,7 @@ describe('useChartTheme and cssToken', () => {
     expect(theme.text).toBe('#17130f')
     expect(theme.accent).toBe('#c2391f')
     expect(theme.grid).toBe('rgba(23, 19, 15, 0.22)')
-    expect(theme.tick.fill).toBe('#e2d8c2')
+    expect(theme.tick.fill).toBe('#5c5246')
     expect(theme.tick.fontSize).toBe(12)
     expect(theme.tooltip.background).toBe('#f4eee0')
     expect(theme.tooltip.color).toBe('#17130f')

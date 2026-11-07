@@ -45,7 +45,7 @@ export function DashboardHeader({
           </h1>
         ) : (
           <>
-            <h1 className="cover-number flex items-baseline gap-3 m-0 leading-none">
+            <h1 className="cover-number flex flex-wrap items-baseline gap-x-4 gap-y-1 m-0 leading-none">
               <span className="cover-value font-display text-6xl sm:text-7xl md:text-8xl font-extrabold tracking-tight text-foreground tabular-nums">
                 {hero.value}
               </span>

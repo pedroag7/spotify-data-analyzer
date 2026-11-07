@@ -55,7 +55,7 @@ export function getChartTheme(): ChartTheme {
     accent: cssToken('--accent'),
     grid: border,
     cursor: cssToken('--accent-soft'),
-    tick: { fill: cssToken('--muted'), fontSize: 12 },
+    tick: { fill: cssToken('--muted-foreground', '#5c5246'), fontSize: 12 },
     tooltip: {
       background: card,
       border: `1px solid ${border}`,

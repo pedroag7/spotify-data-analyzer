@@ -51,7 +51,7 @@ export function Dashboard({
 
       {errors.length > 0 ? (
         <div
-          className="warning-box mb-6 rounded-[2px] border border-[var(--warning)] bg-card p-3.5 text-sm text-[var(--warning)]"
+          className="warning-box mb-6 rounded-[2px] border border-warning bg-card p-3.5 text-sm text-warning"
           role="status"
         >
           {errors.length} arquivo(s) foram ignorados por não serem JSONs válidos.

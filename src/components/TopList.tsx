@@ -81,7 +81,7 @@ export function TopList({
                     )}
                   >
                     <span
-                      className="block h-full bg-foreground origin-left transition-transform duration-200"
+                      className="block w-full h-full bg-foreground origin-left transition-transform duration-200 motion-reduce:transition-none"
                       style={{
                         transform: `scaleX(${Math.max(0.04, item.msPlayed / max)})`,
                       }}

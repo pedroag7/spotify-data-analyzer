@@ -17,6 +17,8 @@
   --color-accent-foreground: var(--primary-foreground);
   --color-destructive: var(--danger);
   --color-destructive-foreground: var(--primary-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--foreground);
   --color-border: var(--border);
   --color-input: var(--border);
   --color-ring: var(--primary);
@@ -40,7 +42,7 @@
     --border: rgba(23, 19, 15, 0.22);
     --radius: 2px;
 
-    /* Legacy tokens for backward compatibility with App.css */
+    /* Base theme tokens of the Encarte design system */
     --bg: #ece4d3;
     --bg-soft: #e2d8c2;
     --text: #17130f;
