@@ -7,6 +7,45 @@ interface UploadScreenProps {
   errors: ParseError[]
 }
 
+const svgProps = {
+  viewBox: '0 0 24 24',
+  fill: 'none',
+  stroke: 'currentColor',
+  strokeWidth: 1.5,
+  strokeLinecap: 'round',
+  strokeLinejoin: 'round',
+  'aria-hidden': true,
+  focusable: false,
+} as const
+
+function DiscIcon() {
+  return (
+    <svg {...svgProps}>
+      <circle cx="12" cy="12" r="9.5" />
+      <circle cx="12" cy="12" r="3.5" />
+      <circle cx="12" cy="12" r="0.8" />
+      <path d="M12 2.5a9.5 9.5 0 0 1 6.7 2.8" />
+    </svg>
+  )
+}
+
+function LoadingIcon() {
+  return (
+    <svg {...svgProps}>
+      <circle cx="12" cy="12" r="9.5" opacity="0.3" />
+      <path d="M12 2.5a9.5 9.5 0 0 1 9.5 9.5" />
+    </svg>
+  )
+}
+
+function LockIcon() {
+  return (
+    <svg {...svgProps}>
+      <rect x="5" y="11" width="14" height="9.5" rx="1" />
+      <path d="M8 11V8a4 4 0 0 1 8 0v3" />
+    </svg>
+  )
+}
 export function UploadScreen({ onFiles, isLoading, errors }: UploadScreenProps) {
   const inputRef = useRef<HTMLInputElement>(null)
   const [isDragging, setIsDragging] = useState(false)
@@ -29,10 +68,7 @@ export function UploadScreen({ onFiles, isLoading, errors }: UploadScreenProps) 
 
   return (
     <main className="upload">
-      <div className="upload-glow" aria-hidden="true" />
-
       <header className="hero">
-        <span className="eyebrow">Spotify Data Analyzer</span>
         <h1>Descubra como você realmente ouve música.</h1>
         <p>
           Importe o histórico ampliado do Spotify e veja seus artistas, músicas e
@@ -68,7 +104,7 @@ export function UploadScreen({ onFiles, isLoading, errors }: UploadScreenProps) 
           hidden
         />
         <span className="dropzone-icon" aria-hidden="true">
-          {isLoading ? '⏳' : '🎧'}
+          {isLoading ? <LoadingIcon /> : <DiscIcon />}
         </span>
         <strong>{isLoading ? 'Lendo seus arquivos…' : 'Arraste seus arquivos .json aqui'}</strong>
         <span className="dropzone-sub">
@@ -106,8 +142,9 @@ export function UploadScreen({ onFiles, isLoading, errors }: UploadScreenProps) 
           </li>
         </ol>
         <p className="privacy-note">
-          🔒 Seus dados são lidos localmente no navegador e nunca são enviados para
-          nenhum servidor.
+          <LockIcon />
+          <span>Seus dados são lidos localmente no navegador e nunca são enviados para
+          nenhum servidor.</span>
         </p>
       </section>
     </main>
