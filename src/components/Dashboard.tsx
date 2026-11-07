@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import {
   Area,
   AreaChart,
@@ -64,7 +65,7 @@ export function Dashboard({
   fileCount,
   errors,
 }: DashboardProps) {
-  const theme = chartTheme()
+  const theme = useMemo(() => chartTheme(), [])
   const monthlyData = analysis.monthly.map((point) => ({
     label: formatMonthLabel(point.month),
     horas: Number((point.msPlayed / 3_600_000).toFixed(1)),
@@ -106,16 +107,16 @@ export function Dashboard({
       <header className="cover">
         <div className="cover-hero">
           {analysis.totalPlays === 0 ? (
-            <p className="cover-empty" role="status">
+            <h1 className="cover-empty" role="status">
               Nenhuma reprodução em {year ?? 'este período'}.
               <span>Escolha outro período para ver seus números.</span>
-            </p>
+            </h1>
           ) : (
             <>
-              <p className="cover-number">
+              <h1 className="cover-number">
                 <span className="cover-value">{hero.value}</span>
                 <span className="cover-unit">{hero.unit}</span>
-              </p>
+              </h1>
               <p className="cover-caption">{hero.caption}</p>
             </>
           )}
@@ -123,7 +124,7 @@ export function Dashboard({
 
         <div className="cover-side">
           <label className="year-select">
-            <span>Período</span>
+            <span>Edição</span>
             <select
               value={year === undefined ? 'all' : String(year)}
               onChange={(event) =>

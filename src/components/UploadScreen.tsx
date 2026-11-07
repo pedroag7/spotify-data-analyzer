@@ -75,21 +75,30 @@ export function UploadScreen({ onFiles, isLoading, errors }: UploadScreenProps) 
           hábitos favoritos. Tudo é processado no seu navegador: nenhum dado sai da
           sua máquina.
         </p>
+        <p className="hero-credit">Spotify Data Analyzer</p>
       </header>
 
       <div
         className={`dropzone${isDragging ? ' dropzone--active' : ''}${isLoading ? ' dropzone--loading' : ''}`}
         onDragOver={(event) => {
+          if (isLoading) return
           event.preventDefault()
           setIsDragging(true)
         }}
         onDragLeave={() => setIsDragging(false)}
-        onDrop={handleDrop}
-        onClick={() => inputRef.current?.click()}
+        onDrop={(event) => {
+          if (isLoading) return
+          handleDrop(event)
+        }}
+        onClick={() => {
+          if (!isLoading) inputRef.current?.click()
+        }}
         role="button"
         tabIndex={0}
+        aria-busy={isLoading}
+        aria-disabled={isLoading}
         onKeyDown={(event) => {
-          if (event.key === 'Enter' || event.key === ' ') {
+          if (!isLoading && (event.key === 'Enter' || event.key === ' ')) {
             event.preventDefault()
             inputRef.current?.click()
           }
@@ -116,8 +125,8 @@ export function UploadScreen({ onFiles, isLoading, errors }: UploadScreenProps) 
         <div className="error-box" role="alert">
           <strong>{errors.length} arquivo(s) não puderam ser lidos</strong>
           <ul>
-            {errors.map((error) => (
-              <li key={`${error.name}-${error.message}`}>
+            {errors.map((error, index) => (
+              <li key={`${error.name}-${error.message}-${index}`}>
                 <span>{error.name}</span> — {error.message}
               </li>
             ))}
