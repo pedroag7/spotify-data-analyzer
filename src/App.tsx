@@ -1,5 +1,4 @@
 import { lazy, Suspense, useMemo, useState } from 'react'
-import './App.css'
 import { UploadScreen } from './components/UploadScreen'
 import {
   analyze,
@@ -81,7 +80,13 @@ function App() {
   }
 
   return (
-    <Suspense fallback={<div className="app-loader">Preparando seu dashboard…</div>}>
+    <Suspense
+      fallback={
+        <div className="flex items-center justify-center min-h-[60vh] py-12 text-center font-display text-2xl font-semibold uppercase tracking-wider text-muted-foreground">
+          Preparando seu dashboard…
+        </div>
+      }
+    >
       <Dashboard
         analysis={analysis}
         year={year}
