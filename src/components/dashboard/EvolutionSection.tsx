@@ -55,6 +55,7 @@ export function EvolutionSection({
         ) : (
           <ResponsiveContainer width="100%" height={280} minHeight={200}>
             <AreaChart
+              key={monthlyData.length > 0 ? `${monthlyData[0].label}-${monthlyData[monthlyData.length - 1]?.label}` : 'empty'}
               data={monthlyData}
               margin={{ top: 12, right: 8, left: -12, bottom: 0 }}
             >
@@ -88,6 +89,9 @@ export function EvolutionSection({
                 strokeWidth={2}
                 fill={theme.accent}
                 fillOpacity={0.14}
+                isAnimationActive={true}
+                animationDuration={300}
+                animationEasing="ease-out"
               />
             </AreaChart>
           </ResponsiveContainer>

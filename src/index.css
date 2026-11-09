@@ -121,4 +121,59 @@
     clip: rect(0 0 0 0);
     white-space: nowrap;
   }
+
+  /* Entrance motion (GPU accelerated: transform + opacity) */
+  @keyframes enter-up {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-enter {
+    animation: enter-up 240ms var(--ease-out) both;
+  }
+
+  .stagger-1 { animation-delay: 30ms; }
+  .stagger-2 { animation-delay: 60ms; }
+  .stagger-3 { animation-delay: 90ms; }
+  .stagger-4 { animation-delay: 120ms; }
+  .stagger-5 { animation-delay: 150ms; }
+  .stagger-6 { animation-delay: 180ms; }
+  .stagger-7 { animation-delay: 210ms; }
+
+  /* Ranking bar sweep animation */
+  @keyframes grow-bar {
+    from {
+      transform: scaleX(0);
+    }
+  }
+
+  .animate-bar {
+    animation: grow-bar 350ms var(--ease-out) both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    @keyframes enter-fade {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    .animate-enter {
+      animation: enter-fade 150ms ease both !important;
+      transform: none !important;
+    }
+
+    .animate-bar {
+      animation: none !important;
+    }
+  }
 }

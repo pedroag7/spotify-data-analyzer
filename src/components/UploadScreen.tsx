@@ -73,7 +73,7 @@ export function UploadScreen({ onFiles, isLoading, errors }: UploadScreenProps) 
   }
 
   return (
-    <main className="relative z-1 max-w-[1120px] mx-auto px-6 pt-14 pb-18 grid grid-cols-1 gap-8 min-[900px]:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] min-[900px]:gap-x-12 min-[900px]:items-start">
+    <main className="relative z-1 max-w-[1120px] mx-auto px-6 pt-14 pb-18 grid grid-cols-1 gap-8 min-[900px]:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] min-[900px]:gap-x-12 min-[900px]:items-start animate-enter">
       <header className="pb-6 border-b-2 border-foreground min-[900px]:col-span-full">
         <h1 className="m-0 max-w-[20ch] font-display font-extrabold text-[clamp(2.25rem,6.5vw,4.5rem)] leading-[1.05] tracking-tight uppercase text-foreground text-balance">
           Descubra como você realmente ouve música.
@@ -93,11 +93,12 @@ export function UploadScreen({ onFiles, isLoading, errors }: UploadScreenProps) 
           'flex flex-col items-center justify-center gap-2 min-h-[220px] p-9 px-6 text-center cursor-pointer',
           'bg-card text-foreground border border-foreground rounded-[2px]',
           'outline-1 outline-border outline-offset-4',
-          'transition-colors duration-150 active:scale-[0.985] motion-reduce:active:scale-100',
+          'transition-[background-color,border-color,color,transform] duration-200 [transition-timing-function:var(--ease-out)]',
+          'active:scale-[0.985] motion-reduce:active:scale-100',
           'focus-visible:outline-3 focus-visible:outline-primary focus-visible:outline-offset-4',
           'hover:bg-muted/50',
           'min-[900px]:col-start-1 min-[900px]:row-start-2',
-          isDragging && 'bg-primary border-foreground text-card hover:bg-primary',
+          isDragging && 'bg-primary border-foreground text-card hover:bg-primary scale-[1.01]',
           isLoading && 'cursor-progress bg-muted/50'
         )}
         onDragOver={(event) => {
@@ -134,13 +135,15 @@ export function UploadScreen({ onFiles, isLoading, errors }: UploadScreenProps) 
         />
         <span
           className={cn(
-            'inline-flex w-14 h-14',
-            isDragging ? 'text-card' : 'text-primary'
+            'inline-flex w-14 h-14 transition-transform duration-200 [transition-timing-function:var(--ease-out)]',
+            isDragging ? 'text-card scale-110' : 'text-primary'
           )}
           aria-hidden="true"
         >
           {isLoading ? (
-            <LoadingIcon className="w-full h-full animate-spin motion-reduce:animate-none" />
+            <span className="inline-flex w-full h-full items-center justify-center animate-spin origin-center motion-reduce:duration-[3s]">
+              <LoadingIcon className="w-full h-full" />
+            </span>
           ) : (
             <DiscIcon className="w-full h-full" />
           )}

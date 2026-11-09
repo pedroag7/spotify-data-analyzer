@@ -139,7 +139,7 @@ describe('Dashboard Modular Components', () => {
   })
 
   describe('TracksSection', () => {
-    it('renders all three top lists', () => {
+    it('renders all three top lists under Repertório', () => {
       const html = renderToStaticMarkup(
         <TracksSection
           topArtists={mockAnalysis.topArtists}
@@ -147,7 +147,7 @@ describe('Dashboard Modular Components', () => {
           topAlbums={mockAnalysis.topAlbums}
         />
       )
-      expect(html).toContain('Faixas')
+      expect(html).toContain('Repertório')
       expect(html).toContain('Artistas mais ouvidos')
       expect(html).toContain('Músicas mais ouvidas')
       expect(html).toContain('Álbuns mais ouvidos')
@@ -155,7 +155,7 @@ describe('Dashboard Modular Components', () => {
   })
 
   describe('PlatformsSection', () => {
-    it('renders platforms top list', () => {
+    it('renders platforms colophon', () => {
       const html = renderToStaticMarkup(
         <PlatformsSection
           platformItems={mockAnalysis.platforms.map((p) => ({
@@ -166,7 +166,7 @@ describe('Dashboard Modular Components', () => {
           }))}
         />
       )
-      expect(html).toContain('Plataformas')
+      expect(html).toContain('Ficha Técnica · Sistemas &amp; Dispositivos')
       expect(html).toContain('iOS')
       expect(html).toContain('macOS')
     })
@@ -184,14 +184,15 @@ describe('Dashboard Modular Components', () => {
           errors={[]}
         />
       )
-      expect(html).toContain('Faixas')
+      expect(html).toContain('Repertório')
       expect(html).toContain('Evolução mensal')
       expect(html).toContain('Hábitos')
-      expect(html).toContain('Plataformas')
+      expect(html).toContain('Obsessão Musical')
+      expect(html).toContain('Ficha Técnica')
       expect(html).toContain('Processado localmente')
     })
 
-    it('renders empty message when totalPlays is 0 without crashing', () => {
+    it('renders empty message when totalPlays is 0 without crashing and omits metrics grid', () => {
       const html = renderToStaticMarkup(
         <Dashboard
           analysis={emptyAnalysis}
@@ -202,7 +203,9 @@ describe('Dashboard Modular Components', () => {
           errors={[]}
         />
       )
-      expect(html).toContain('Sem dados para exibir neste período.')
+      expect(html).toContain('Nenhuma reprodução em 2024.')
+      expect(html).toContain('Voltar para todos os anos')
+      expect(html).not.toContain('Artistas únicos')
     })
 
     it('displays error warning banner when errors are present', () => {

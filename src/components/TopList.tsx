@@ -41,7 +41,7 @@ export function TopList({
               <li
                 key={`${item.name}-${item.detail}-${index}`}
                 className={cn(
-                  'grid items-start gap-3 border-b border-border transition-colors',
+                  'grid items-start gap-3 border-b border-border transition-colors duration-150 hover:bg-muted/30 px-1 -mx-1 rounded-[2px]',
                   isFirst
                     ? 'grid-cols-[2.5rem_minmax(0,1fr)] py-3.5'
                     : 'grid-cols-[2rem_minmax(0,1fr)] py-2.5 min-h-[44px]'
@@ -81,9 +81,11 @@ export function TopList({
                     )}
                   >
                     <span
-                      className="block w-full h-full bg-foreground origin-left transition-transform duration-200 motion-reduce:transition-none"
+                      key={`${item.name}-${item.msPlayed}`}
+                      className="animate-bar block w-full h-full bg-foreground origin-left transition-transform duration-250 [transition-timing-function:var(--ease-out)] motion-reduce:transition-none motion-reduce:animation-none"
                       style={{
                         transform: `scaleX(${Math.max(0.04, item.msPlayed / max)})`,
+                        animationDelay: `${index * 30}ms`,
                       }}
                     />
                   </div>

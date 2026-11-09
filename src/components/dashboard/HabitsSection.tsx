@@ -51,6 +51,7 @@ export function HabitsSection({
           </div>
           <ResponsiveContainer width="100%" height={220} minHeight={180}>
             <BarChart
+              key={`hourly-${hourlyData.reduce((a, b) => a + b.reproducoes, 0)}`}
               data={hourlyData}
               margin={{ top: 12, right: 8, left: -20, bottom: 0 }}
             >
@@ -74,7 +75,13 @@ export function HabitsSection({
                 labelStyle={theme.label}
                 formatter={(value) => [formatNumber(Number(value)), 'Reproduções']}
               />
-              <Bar dataKey="reproducoes" fill={theme.text} />
+              <Bar
+                dataKey="reproducoes"
+                fill={theme.text}
+                isAnimationActive={true}
+                animationDuration={300}
+                animationEasing="ease-out"
+              />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -90,6 +97,7 @@ export function HabitsSection({
           </div>
           <ResponsiveContainer width="100%" height={220} minHeight={180}>
             <BarChart
+              key={`weekday-${weekdayData.reduce((a, b) => a + b.reproducoes, 0)}`}
               data={weekdayData}
               margin={{ top: 12, right: 8, left: -20, bottom: 0 }}
             >
@@ -112,7 +120,13 @@ export function HabitsSection({
                 labelStyle={theme.label}
                 formatter={(value) => [formatNumber(Number(value)), 'Reproduções']}
               />
-              <Bar dataKey="reproducoes" fill={theme.text} />
+              <Bar
+                dataKey="reproducoes"
+                fill={theme.text}
+                isAnimationActive={true}
+                animationDuration={300}
+                animationEasing="ease-out"
+              />
             </BarChart>
           </ResponsiveContainer>
         </div>

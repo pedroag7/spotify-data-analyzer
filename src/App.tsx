@@ -30,10 +30,15 @@ function App() {
     }
 
     setIsLoading(true)
+    // Permite que o browser renderize o spinner e inicie a rotação antes da leitura pesada
+    await new Promise((resolve) => setTimeout(resolve, 50))
+
     try {
       const contents = await Promise.all(
         files.map(async (file) => ({ name: file.name, text: await file.text() })),
       )
+      // Cede a thread para manter o spinner fluido antes do parse síncrono
+      await new Promise((resolve) => setTimeout(resolve, 30))
       const result = parseStreamingFiles(contents)
 
       if (result.entries.length === 0) {
@@ -82,7 +87,7 @@ function App() {
   return (
     <Suspense
       fallback={
-        <div className="flex items-center justify-center min-h-[60vh] py-12 text-center font-display text-2xl font-semibold uppercase tracking-wider text-muted-foreground">
+        <div className="flex items-center justify-center min-h-[60vh] py-12 text-center font-display text-2xl font-semibold uppercase tracking-wider text-muted-foreground animate-enter">
           Preparando seu dashboard…
         </div>
       }

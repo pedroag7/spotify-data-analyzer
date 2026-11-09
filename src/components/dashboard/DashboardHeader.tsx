@@ -1,5 +1,7 @@
+import { useState, useRef, useEffect } from 'react'
 import type { Analysis } from '../../lib/streaming'
 import type { HeroHeadline } from '../../hooks/useDashboardData'
+import { useCountUp } from '../../hooks/useCountUp'
 import { Button } from '../ui/button'
 import { Select } from '../ui/select'
 import { cn } from '../../lib/utils'
@@ -25,6 +27,38 @@ export function DashboardHeader({
   fileCount,
   className,
 }: DashboardHeaderProps) {
+  const animatedHeroValue = useCountUp(hero.value, 500)
+  const [confirmReset, setConfirmReset] = useState(false)
+  const resetTimerRef = useRef<number | null>(null)
+
+  const handleResetClick = () => {
+    if (confirmReset) {
+      if (resetTimerRef.current) {
+        window.clearTimeout(resetTimerRef.current)
+        resetTimerRef.current = null
+      }
+      setConfirmReset(false)
+      onReset()
+    } else {
+      setConfirmReset(true)
+      if (resetTimerRef.current) {
+        window.clearTimeout(resetTimerRef.current)
+      }
+      resetTimerRef.current = window.setTimeout(() => {
+        setConfirmReset(false)
+        resetTimerRef.current = null
+      }, 3000)
+    }
+  }
+
+  useEffect(() => {
+    return () => {
+      if (resetTimerRef.current) {
+        window.clearTimeout(resetTimerRef.current)
+      }
+    }
+  }, [])
+
   return (
     <header
       className={cn(
@@ -34,20 +68,28 @@ export function DashboardHeader({
     >
       <div className="cover-hero min-w-0">
         {analysis.totalPlays === 0 ? (
-          <h1
-            className="cover-empty font-display text-3xl sm:text-4xl md:text-5xl font-bold leading-tight tracking-tight text-foreground m-0"
-            role="status"
-          >
-            Nenhuma reprodução em {year ?? 'este período'}.
-            <span className="block mt-2 font-sans text-base font-normal text-muted-foreground">
-              Escolha outro período para ver seus números.
-            </span>
-          </h1>
+          <div className="cover-empty" role="status">
+            <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold leading-tight tracking-tight text-foreground m-0">
+              Nenhuma reprodução em {year ?? 'este período'}.
+            </h1>
+            <p className="mt-2 font-sans text-base font-normal text-muted-foreground">
+              Não encontramos registros de áudio para esta edição do histórico.
+            </p>
+            {year !== undefined ? (
+              <button
+                type="button"
+                onClick={() => onYearChange(undefined)}
+                className="mt-4 inline-flex items-center gap-1.5 border-b border-foreground pb-0.5 text-xs font-semibold uppercase tracking-wider text-foreground hover:text-primary hover:border-primary transition-colors cursor-pointer"
+              >
+                ← Voltar para todos os anos
+              </button>
+            ) : null}
+          </div>
         ) : (
           <>
             <h1 className="cover-number flex flex-wrap items-baseline gap-x-4 gap-y-1 m-0 leading-none">
               <span className="cover-value font-display text-6xl sm:text-7xl md:text-8xl font-extrabold tracking-tight text-foreground tabular-nums">
-                {hero.value}
+                {animatedHeroValue}
               </span>
               <span className="cover-unit font-display text-3xl sm:text-4xl md:text-5xl font-bold uppercase text-primary">
                 {hero.unit}
@@ -96,10 +138,16 @@ export function DashboardHeader({
           type="button"
           variant="ghost"
           size="sm"
-          onClick={onReset}
-          className="ghost-button self-start text-xs font-semibold tracking-wider uppercase border border-border"
+          onClick={handleResetClick}
+          className={cn(
+            'ghost-button self-start text-xs font-semibold tracking-wider uppercase border border-border',
+            'transition-[background-color,border-color,color] duration-160 [transition-timing-function:var(--ease-out)]',
+            confirmReset &&
+              'border-primary bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground font-bold'
+          )}
+          aria-live="polite"
         >
-          Trocar arquivos
+          {confirmReset ? 'Descartar dados? Confirmar' : 'Trocar arquivos'}
         </Button>
       </div>
 
